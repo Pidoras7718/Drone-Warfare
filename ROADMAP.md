@@ -2,16 +2,16 @@
 
 ## v0.1.0 Alpha Foundation
 
-- [ ] Базовая структура tModLoader-мода
-- [ ] `build.txt`
-- [ ] `description.txt`
-- [ ] Главный класс `DroneWarfare.cs`
-- [ ] `DroneConfig`
-- [ ] `DroneKeys`
-- [ ] `DroneSystem`
-- [ ] `DronePlayer`
-- [ ] `DroneInstance`
-- [ ] `FPVController`
+- [x] Базовая структура tModLoader-мода
+- [x] `build.txt`
+- [x] `description.txt`
+- [x] Главный класс `DroneWarfare.cs`
+- [x] `DroneConfig`
+- [x] `DroneKeys`
+- [x] `DroneSystem`
+- [x] `DronePlayer`
+- [x] `DroneInstance`
+- [x] `FPVController`
 - [ ] Заготовка FPV-дрона
 - [ ] Базовый HUD
 - [ ] Один слот полезной нагрузки

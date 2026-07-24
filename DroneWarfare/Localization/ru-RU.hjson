@@ -1,0 +1,22 @@
+Mods: {
+	DroneWarfare: {
+		Items: {
+			FPVController: {
+				DisplayName: FPV-контроллер
+				Tooltip: Запускает тестовый FPV-дрон для проверки фундамента Drone Warfare v0.1.0 Alpha.
+			}
+		}
+
+		Keybinds: {
+			ToggleDroneControl: {
+				DisplayName: Переключить управление дроном
+			}
+			DetonateDrone: {
+				DisplayName: Подорвать дрон
+			}
+			CycleDroneMode: {
+				DisplayName: Переключить режим дрона
+			}
+		}
+	}
+}

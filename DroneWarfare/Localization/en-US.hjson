@@ -1,0 +1,22 @@
+Mods: {
+	DroneWarfare: {
+		Items: {
+			FPVController: {
+				DisplayName: FPV Controller
+				Tooltip: Deploys a placeholder FPV drone for Drone Warfare v0.1.0 Alpha foundation testing.
+			}
+		}
+
+		Keybinds: {
+			ToggleDroneControl: {
+				DisplayName: Toggle Drone Control
+			}
+			DetonateDrone: {
+				DisplayName: Detonate Drone
+			}
+			CycleDroneMode: {
+				DisplayName: Cycle Drone Mode
+			}
+		}
+	}
+}
