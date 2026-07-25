@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +10,19 @@ namespace DroneWarfare.Common;
 /// </summary>
 public sealed class DronePayload
 {
+    private static readonly Dictionary<int, DronePayload> Registry = new()
+    {
+        [ItemID.ExplodingBullet] = new DronePayload(ItemID.ExplodingBullet, "Explosive Rounds", 60, 100, DustID.Smoke, 20),
+        [ItemID.RocketI]         = new DronePayload(ItemID.RocketI, "Rocket I", 100, 160, DustID.Torch, 28),
+        [ItemID.RocketII]        = new DronePayload(ItemID.RocketII, "Rocket II", 100, 160, DustID.Torch, 28),
+        [ItemID.RocketIII]       = new DronePayload(ItemID.RocketIII, "Rocket III", 130, 180, DustID.InfernoFork, 35),
+        [ItemID.RocketIV]        = new DronePayload(ItemID.RocketIV, "Rocket IV", 130, 180, DustID.InfernoFork, 35),
+        [ItemID.Grenade]         = new DronePayload(ItemID.Grenade, "Grenade", 70, 120, DustID.Smoke, 22),
+        [ItemID.Bomb]            = new DronePayload(ItemID.Bomb, "Bomb", 80, 140, DustID.Torch, 25),
+        [ItemID.Dynamite]        = new DronePayload(ItemID.Dynamite, "Dynamite", 120, 200, DustID.InfernoFork, 40),
+        [ItemID.ExplosiveJackOLantern] = new DronePayload(ItemID.ExplosiveJackOLantern, "Jack'O Lantern", 90, 150, DustID.Pumpkin, 28),
+    };
+
     /// <summary>
     /// The item type of the ammunition used as payload.
     /// </summary>
@@ -54,19 +68,8 @@ public sealed class DronePayload
     /// </summary>
     public static DronePayload? GetPayload(int itemType)
     {
-        return itemType switch
-        {
-            ItemID.ExplodingBullet => new DronePayload(itemType, "Explosive Rounds", 60, 100, DustID.Smoke, 20),
-            ItemID.RocketI         => new DronePayload(itemType, "Rocket I", 100, 160, DustID.Torch, 28),
-            ItemID.RocketII        => new DronePayload(itemType, "Rocket II", 100, 160, DustID.Torch, 28),
-            ItemID.RocketIII       => new DronePayload(itemType, "Rocket III", 130, 180, DustID.InfernoFork, 35),
-            ItemID.RocketIV        => new DronePayload(itemType, "Rocket IV", 130, 180, DustID.InfernoFork, 35),
-            ItemID.Grenade         => new DronePayload(itemType, "Grenade", 70, 120, DustID.Smoke, 22),
-            ItemID.Bomb            => new DronePayload(itemType, "Bomb", 80, 140, DustID.Torch, 25),
-            ItemID.Dynamite        => new DronePayload(itemType, "Dynamite", 120, 200, DustID.InfernoFork, 40),
-            ItemID.ExplosiveJackOLantern => new DronePayload(itemType, "Jack'O Lantern", 90, 150, DustID.Pumpkin, 28),
-            _ => null
-        };
+        Registry.TryGetValue(itemType, out DronePayload? payload);
+        return payload;
     }
 
     /// <summary>
