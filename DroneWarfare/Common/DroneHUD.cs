@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using DroneWarfare.Content.Players;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace DroneWarfare.Common;
@@ -11,7 +11,7 @@ public sealed class DroneHUD : ModSystem
 {
     private const string LayerName = "DroneWarfare: Operator HUD";
 
-    public override void ModifyInterfaceLayers(LayerList layers)
+    public override void ModifyInterfaceLayers(IList<GameInterfaceLayer> layers)
     {
         int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
         if (inventoryIndex == -1)
