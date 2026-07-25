@@ -11,7 +11,7 @@ public sealed class DroneHUD : ModSystem
 {
     private const string LayerName = "DroneWarfare: Operator HUD";
 
-    public override void ModifyInterfaceLayers(IList<GameInterfaceLayer> layers)
+    public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
     {
         int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
         if (inventoryIndex == -1)
