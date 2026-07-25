@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added configurable drone movement keybinds, drone camera control, player freeze while piloting, hold-position mode, tile collision and explosion-radius damage.
 - Added a visible placeholder FPV drone projectile with basic WASD flight, control toggle and detonation feedback.
 - Added installation notes explaining the required `ModSources/DroneWarfare` folder name and how to find/craft the FPV Controller.
 - Added v0.1.0 Alpha foundation tModLoader source files.

@@ -3,7 +3,7 @@ Mods: {
 		Items: {
 			FPVController: {
 				DisplayName: FPV Controller
-				Tooltip: Deploys a visible test FPV drone. WASD to fly, F to toggle control, G to detonate.
+				Tooltip: Deploys a visible test FPV drone. Drone movement keys can be changed in Controls settings.
 			}
 		}
 
@@ -16,6 +16,18 @@ Mods: {
 			}
 			CycleDroneMode: {
 				DisplayName: Cycle Drone Mode
+			}
+			DroneMoveUp: {
+				DisplayName: Drone: Up
+			}
+			DroneMoveDown: {
+				DisplayName: Drone: Down
+			}
+			DroneMoveLeft: {
+				DisplayName: Drone: Left
+			}
+			DroneMoveRight: {
+				DisplayName: Drone: Right
 			}
 		}
 	}

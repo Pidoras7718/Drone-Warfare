@@ -1,3 +1,4 @@
+using DroneWarfare.Common;
 using DroneWarfare.Content.Players;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,6 +13,9 @@ public sealed class FPVDroneProjectile : ModProjectile
     private const float Acceleration = 0.22f;
     private const float MaxSpeed = 8f;
     private const float Drag = 0.96f;
+    private const float HoldDrag = 0.82f;
+    private const int ExplosionSize = 160;
+    private const int ExplosionDamage = 80;
 
     public override string Texture => $"Terraria/Images/Item_{ItemID.MechanicalLens}";
 
@@ -24,9 +28,9 @@ public sealed class FPVDroneProjectile : ModProjectile
     {
         Projectile.width = 24;
         Projectile.height = 24;
-        Projectile.friendly = true;
+        Projectile.friendly = false;
         Projectile.hostile = false;
-        Projectile.tileCollide = false;
+        Projectile.tileCollide = true;
         Projectile.ignoreWater = true;
         Projectile.penetrate = -1;
         Projectile.timeLeft = 60 * 60;
@@ -46,35 +50,13 @@ public sealed class FPVDroneProjectile : ModProjectile
 
         DronePlayer dronePlayer = owner.GetModPlayer<DronePlayer>();
 
-        if (Main.myPlayer == Projectile.owner && dronePlayer.IsControllingDrone)
+        if (dronePlayer.ActiveDrone?.Mode == DroneMode.HoldPosition)
         {
-            Vector2 input = Vector2.Zero;
-
-            if (owner.controlLeft)
-            {
-                input.X -= 1f;
-            }
-
-            if (owner.controlRight)
-            {
-                input.X += 1f;
-            }
-
-            if (owner.controlUp || owner.controlJump)
-            {
-                input.Y -= 1f;
-            }
-
-            if (owner.controlDown)
-            {
-                input.Y += 1f;
-            }
-
-            if (input.LengthSquared() > 1f)
-            {
-                input.Normalize();
-            }
-
+            Projectile.velocity *= HoldDrag;
+        }
+        else if (Main.myPlayer == Projectile.owner && dronePlayer.IsControllingDrone)
+        {
+            Vector2 input = GetDroneInput();
             Projectile.velocity += input * Acceleration;
 
             if (Projectile.velocity.Length() > MaxSpeed)
@@ -95,13 +77,98 @@ public sealed class FPVDroneProjectile : ModProjectile
         Lighting.AddLight(Projectile.Center, 0.2f, 0.45f, 0.55f);
     }
 
+    public override bool OnTileCollide(Vector2 oldVelocity)
+    {
+        Projectile.Kill();
+        return false;
+    }
+
     public override void Kill(int timeLeft)
     {
-        for (int i = 0; i < 12; i++)
+        Explode();
+    }
+
+    private static Vector2 GetDroneInput()
+    {
+        Vector2 input = Vector2.Zero;
+
+        if (DroneKeys.DroneMoveLeft.Current)
         {
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
+            input.X -= 1f;
         }
 
-        SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+        if (DroneKeys.DroneMoveRight.Current)
+        {
+            input.X += 1f;
+        }
+
+        if (DroneKeys.DroneMoveUp.Current)
+        {
+            input.Y -= 1f;
+        }
+
+        if (DroneKeys.DroneMoveDown.Current)
+        {
+            input.Y += 1f;
+        }
+
+        if (input.LengthSquared() > 1f)
+        {
+            input.Normalize();
+        }
+
+        return input;
+    }
+
+    private void Explode()
+    {
+        Vector2 oldCenter = Projectile.Center;
+
+        Projectile.position = oldCenter - new Vector2(ExplosionSize / 2f);
+        Projectile.width = ExplosionSize;
+        Projectile.height = ExplosionSize;
+        Projectile.damage = ExplosionDamage;
+        Projectile.friendly = true;
+        Projectile.tileCollide = false;
+        Projectile.Damage();
+
+        for (int i = 0; i < 28; i++)
+        {
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
+        }
+
+        if (Main.myPlayer == Projectile.owner)
+        {
+            DestroyLooseTiles(oldCenter);
+        }
+
+        SoundEngine.PlaySound(SoundID.Item14, oldCenter);
+    }
+
+    private static void DestroyLooseTiles(Vector2 center)
+    {
+        int tileRadius = 2;
+        Point tileCenter = center.ToTileCoordinates();
+
+        for (int x = tileCenter.X - tileRadius; x <= tileCenter.X + tileRadius; x++)
+        {
+            for (int y = tileCenter.Y - tileRadius; y <= tileCenter.Y + tileRadius; y++)
+            {
+                if (!WorldGen.InWorld(x, y))
+                {
+                    continue;
+                }
+
+                Tile tile = Framing.GetTileSafely(x, y);
+
+                if (!tile.HasTile || Main.tileDungeon[tile.TileType] || Main.tileFrameImportant[tile.TileType])
+                {
+                    continue;
+                }
+
+                WorldGen.KillTile(x, y, fail: false, effectOnly: false, noItem: false);
+            }
+        }
     }
 }

@@ -33,6 +33,31 @@ public sealed class DronePlayer : ModPlayer
         }
     }
 
+    public override void PreUpdateMovement()
+    {
+        if (!IsControllingDrone || !HasActiveDroneProjectile())
+        {
+            return;
+        }
+
+        Player.velocity.X = 0f;
+        Player.controlLeft = false;
+        Player.controlRight = false;
+        Player.controlUp = false;
+        Player.controlDown = false;
+        Player.controlJump = false;
+    }
+
+    public override void ModifyScreenPosition()
+    {
+        if (!IsControllingDrone || !HasActiveDroneProjectile() || Main.myPlayer != Player.whoAmI)
+        {
+            return;
+        }
+
+        Main.screenPosition = Main.projectile[ActiveDroneProjectile].Center - new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
+    }
+
     public override void ProcessTriggers(TriggersSet triggersSet)
     {
         if (DroneKeys.ToggleDroneControl.JustPressed)
@@ -64,7 +89,7 @@ public sealed class DronePlayer : ModPlayer
 
         if (Main.myPlayer == Player.whoAmI)
         {
-            Main.NewText("FPV drone initialized. Use WASD to fly, F to toggle control, G to detonate.");
+            Main.NewText("FPV drone initialized. Drone camera active. Use drone movement binds, F to return to player, V to hover, G to detonate.");
         }
     }
 
@@ -87,7 +112,7 @@ public sealed class DronePlayer : ModPlayer
 
         if (Main.myPlayer == Player.whoAmI)
         {
-            Main.NewText(IsControllingDrone ? "Drone control enabled." : "Drone control disabled.");
+            Main.NewText(IsControllingDrone ? "Drone control enabled. Camera locked to drone." : "Drone control disabled. Drone will keep its current mode.");
         }
     }
 
@@ -118,7 +143,7 @@ public sealed class DronePlayer : ModPlayer
             return;
         }
 
-        ActiveDrone.Mode = ActiveDrone.Mode == DroneMode.Manual ? DroneMode.EmergencyManual : DroneMode.Manual;
+        ActiveDrone.Mode = ActiveDrone.Mode == DroneMode.Manual ? DroneMode.HoldPosition : DroneMode.Manual;
 
         if (Main.myPlayer == Player.whoAmI)
         {
