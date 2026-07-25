@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DroneWarfare.Content.Players;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,35 +8,19 @@ namespace DroneWarfare.Common;
 
 public sealed class DroneHUD : ModSystem
 {
-    private const string LayerName = "DroneWarfare: Operator HUD";
-
-    public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-    {
-        int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-        if (inventoryIndex == -1)
-        {
-            return;
-        }
-
-        layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-            LayerName,
-            DrawHUD,
-            InterfaceScaleType.UI));
-    }
-
-    private static bool DrawHUD()
+    public override void PostDrawInterface(SpriteBatch batch)
     {
         Player player = Main.player[Main.myPlayer];
         if (player is not { active: true, dead: false })
         {
-            return true;
+            return;
         }
 
         DronePlayer dronePlayer = player.GetModPlayer<DronePlayer>();
 
         if (dronePlayer.ActiveDrone is null || dronePlayer.ActiveDroneProjectile < 0)
         {
-            return true;
+            return;
         }
 
         var drone = dronePlayer.ActiveDrone;
@@ -62,7 +45,5 @@ public sealed class DroneHUD : ModSystem
         Utils.DrawBorderString(Main.spriteBatch, modeText, new Vector2(x, y), Color.LightBlue);
         y += lineHeight;
         Utils.DrawBorderString(Main.spriteBatch, payloadText, new Vector2(x, y), drone.ActivePayload != null ? Color.Orange : Color.Gray);
-
-        return true;
     }
 }
