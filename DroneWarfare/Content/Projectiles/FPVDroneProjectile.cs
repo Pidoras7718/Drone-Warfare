@@ -132,6 +132,8 @@ public sealed class FPVDroneProjectile : ModProjectile
         Projectile.tileCollide = false;
         Projectile.Damage();
 
+        DroneDamageSystem.ApplyExplosionDamageToPlayers(oldCenter, ExplosionDamage, ExplosionSize / 2f);
+
         for (int i = 0; i < 28; i++)
         {
             Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
