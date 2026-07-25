@@ -56,7 +56,7 @@ public sealed class DronePayload
     {
         return itemType switch
         {
-            ItemID.ExplosiveBullet => new DronePayload(itemType, "Explosive Rounds", 60, 100, DustID.Smoke, 20),
+            ItemID.ExplodingBullet => new DronePayload(itemType, "Explosive Rounds", 60, 100, DustID.Smoke, 20),
             ItemID.RocketI         => new DronePayload(itemType, "Rocket I", 100, 160, DustID.Torch, 28),
             ItemID.RocketII        => new DronePayload(itemType, "Rocket II", 100, 160, DustID.Torch, 28),
             ItemID.RocketIII       => new DronePayload(itemType, "Rocket III", 130, 180, DustID.InfernoFork, 35),

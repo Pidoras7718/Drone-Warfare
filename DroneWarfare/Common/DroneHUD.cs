@@ -2,6 +2,7 @@ using DroneWarfare.Content.Players;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace DroneWarfare.Common;
