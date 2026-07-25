@@ -89,7 +89,12 @@ public sealed class DronePlayer : ModPlayer
 
         if (Main.myPlayer == Player.whoAmI)
         {
-            Main.NewText("FPV drone initialized. Drone camera active. Use drone movement binds, F to return to player, V to hover, G to detonate.");
+            // Try to auto-load a payload from inventory
+            bool hasPayload = ActiveDrone.TryLoadPayloadFromInventory(Player);
+            string payloadStatus = hasPayload
+                ? $"Payload loaded: {ActiveDrone.ActivePayload?.DisplayName ?? "Unknown"}."
+                : "No payload loaded — drone will not explode.";
+            Main.NewText($"FPV drone initialized. {payloadStatus} Use drone movement binds, F to return to player, V to hover, G to detonate.");
         }
     }
 

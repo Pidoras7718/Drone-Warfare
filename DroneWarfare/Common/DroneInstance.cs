@@ -44,6 +44,53 @@ public sealed class DroneInstance
 
     public bool IsActive => Mode != DroneMode.Inactive && Health > 0f;
 
+    /// <summary>
+    /// Returns the payload descriptor based on the currently loaded payload item type.
+    /// Returns null if no payload is loaded (PayloadItemType == 0).
+    /// </summary>
+    public DronePayload? ActivePayload => PayloadItemType == 0 ? null : DronePayload.GetPayload(PayloadItemType) ?? DronePayload.DefaultPayload;
+
+    /// <summary>
+    /// Tries to load a payload from the owner player's inventory.
+    /// Only the first stack of matching ammo is consumed.
+    /// Returns true if a payload was loaded, false if no suitable ammo was found.
+    /// </summary>
+    public bool TryLoadPayloadFromInventory(Player owner)
+    {
+        for (int i = 0; i < 58; i++)
+        {
+            Item item = owner.inventory[i];
+            if (item.IsAir || item.stack <= 0)
+            {
+                continue;
+            }
+
+            DronePayload? payload = DronePayload.GetPayload(item.type);
+            if (payload != null)
+            {
+                PayloadItemType = item.type;
+                item.stack--;
+
+                if (item.stack <= 0)
+                {
+                    item.TurnToAir();
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Clears the currently loaded payload (sets PayloadItemType to 0).
+    /// </summary>
+    public void ClearPayload()
+    {
+        PayloadItemType = 0;
+    }
+
     public void Deactivate()
     {
         Mode = DroneMode.Inactive;

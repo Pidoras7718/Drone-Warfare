@@ -14,8 +14,6 @@ public sealed class FPVDroneProjectile : ModProjectile
     private const float MaxSpeed = 8f;
     private const float Drag = 0.96f;
     private const float HoldDrag = 0.82f;
-    private const int ExplosionSize = 160;
-    private const int ExplosionDamage = 80;
 
     public override string Texture => $"Terraria/Images/Item_{ItemID.MechanicalLens}";
 
@@ -122,22 +120,33 @@ public sealed class FPVDroneProjectile : ModProjectile
 
     private void Explode()
     {
-        Vector2 oldCenter = Projectile.Center;
+        Player owner = Main.player[Projectile.owner];
+        DronePlayer dronePlayer = owner.GetModPlayer<DronePlayer>();
+        DronePayload? payload = dronePlayer.ActiveDrone?.ActivePayload;
 
-        Projectile.position = oldCenter - new Vector2(ExplosionSize / 2f);
-        Projectile.width = ExplosionSize;
-        Projectile.height = ExplosionSize;
-        Projectile.damage = ExplosionDamage;
+        // No payload loaded — drone silently breaks apart, no explosion.
+        if (payload is null)
+        {
+            return;
+        }
+
+        Vector2 oldCenter = Projectile.Center;
+        int explosionSize = payload.ExplosionSize;
+        int explosionDamage = payload.ExplosionDamage;
+
+        Projectile.position = oldCenter - new Vector2(explosionSize / 2f);
+        Projectile.width = explosionSize;
+        Projectile.height = explosionSize;
+        Projectile.damage = explosionDamage;
         Projectile.friendly = true;
         Projectile.tileCollide = false;
         Projectile.Damage();
 
-        DroneDamageSystem.ApplyExplosionDamageToPlayers(oldCenter, ExplosionDamage, ExplosionSize / 2f);
+        DroneDamageSystem.ApplyExplosionDamageToPlayers(oldCenter, explosionDamage, explosionSize / 2f);
 
-        for (int i = 0; i < 28; i++)
+        for (int i = 0; i < payload.DustCount; i++)
         {
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
-            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, payload.DustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f);
         }
 
         if (Main.myPlayer == Projectile.owner)
