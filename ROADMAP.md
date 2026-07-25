@@ -18,7 +18,7 @@
 - [ ] Bomb
 - [ ] Dynamite
 - [ ] Rocket I
-- [ ] Friendly Fire
+- [x] Friendly Fire
 - [ ] Summon Damage
 - [ ] Первичная сетевая структура
 
