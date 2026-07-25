@@ -3,7 +3,7 @@ Mods: {
 		Items: {
 			FPVController: {
 				DisplayName: FPV Controller
-				Tooltip: Deploys a placeholder FPV drone for Drone Warfare v0.1.0 Alpha foundation testing.
+				Tooltip: Deploys a visible test FPV drone. WASD to fly, F to toggle control, G to detonate.
 			}
 		}
 

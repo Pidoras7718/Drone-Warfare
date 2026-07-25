@@ -3,7 +3,7 @@ Mods: {
 		Items: {
 			FPVController: {
 				DisplayName: FPV-контроллер
-				Tooltip: Запускает тестовый FPV-дрон для проверки фундамента Drone Warfare v0.1.0 Alpha.
+				Tooltip: Запускает видимый тестовый FPV-дрон. WASD — полёт, F — управление, G — подрыв.
 			}
 		}
 

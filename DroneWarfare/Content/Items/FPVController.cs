@@ -1,4 +1,5 @@
 using DroneWarfare.Content.Players;
+using DroneWarfare.Content.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +26,22 @@ public sealed class FPVController : ModItem
 
     public override bool? UseItem(Player player)
     {
-        player.GetModPlayer<DronePlayer>().DeployTestDrone();
+        if (player.whoAmI != Main.myPlayer)
+        {
+            return true;
+        }
+
+        int projectileType = ModContent.ProjectileType<FPVDroneProjectile>();
+        int projectileIndex = Projectile.NewProjectile(
+            player.GetSource_ItemUse(Item),
+            player.Center + new Microsoft.Xna.Framework.Vector2(player.direction * 48f, -24f),
+            new Microsoft.Xna.Framework.Vector2(player.direction * 2f, -1f),
+            projectileType,
+            10,
+            1f,
+            player.whoAmI);
+
+        player.GetModPlayer<DronePlayer>().DeployTestDrone(projectileIndex);
         return true;
     }
 

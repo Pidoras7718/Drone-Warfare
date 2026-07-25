@@ -12,7 +12,7 @@
 - [x] `DronePlayer`
 - [x] `DroneInstance`
 - [x] `FPVController`
-- [ ] Заготовка FPV-дрона
+- [x] Заготовка FPV-дрона
 - [ ] Базовый HUD
 - [ ] Один слот полезной нагрузки
 - [ ] Bomb
