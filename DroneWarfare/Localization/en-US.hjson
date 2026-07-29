@@ -1,0 +1,34 @@
+Mods: {
+	DroneWarfare: {
+		Items: {
+			FPVController: {
+				DisplayName: FPV Controller
+				Tooltip: Deploys a visible test FPV drone. Drone movement keys can be changed in Controls settings.
+			}
+		}
+
+		Keybinds: {
+			ToggleDroneControl: {
+				DisplayName: Toggle Drone Control
+			}
+			DetonateDrone: {
+				DisplayName: Detonate Drone
+			}
+			CycleDroneMode: {
+				DisplayName: Cycle Drone Mode
+			}
+			DroneMoveUp: {
+				DisplayName: Drone: Up
+			}
+			DroneMoveDown: {
+				DisplayName: Drone: Down
+			}
+			DroneMoveLeft: {
+				DisplayName: Drone: Left
+			}
+			DroneMoveRight: {
+				DisplayName: Drone: Right
+			}
+		}
+	}
+}

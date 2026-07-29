@@ -1,0 +1,4 @@
+displayName = Drone Warfare
+author = Drone Warfare Team
+version = 0.1.0
+side = Both

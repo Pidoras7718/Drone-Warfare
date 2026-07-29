@@ -1,0 +1,3 @@
+Drone Warfare adds modular drones, FPV control, payload systems, guidance and air-defense mechanics.
+
+Current state: v0.1.0 Alpha foundation. The mod registers core systems, keybinds and a first FPV Controller item as the base for future drone gameplay.

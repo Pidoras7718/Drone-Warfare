@@ -1,0 +1,34 @@
+Mods: {
+	DroneWarfare: {
+		Items: {
+			FPVController: {
+				DisplayName: FPV-контроллер
+				Tooltip: Запускает видимый тестовый FPV-дрон. Кнопки движения дрона можно менять в настройках управления.
+			}
+		}
+
+		Keybinds: {
+			ToggleDroneControl: {
+				DisplayName: Переключить управление дроном
+			}
+			DetonateDrone: {
+				DisplayName: Подорвать дрон
+			}
+			CycleDroneMode: {
+				DisplayName: Переключить режим дрона
+			}
+			DroneMoveUp: {
+				DisplayName: Дрон: вверх
+			}
+			DroneMoveDown: {
+				DisplayName: Дрон: вниз
+			}
+			DroneMoveLeft: {
+				DisplayName: Дрон: влево
+			}
+			DroneMoveRight: {
+				DisplayName: Дрон: вправо
+			}
+		}
+	}
+}

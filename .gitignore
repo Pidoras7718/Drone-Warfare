@@ -1,0 +1,15 @@
+# tModLoader / Terraria build outputs
+*.tmod
+bin/
+obj/
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS files
+.DS_Store
+Thumbs.db
